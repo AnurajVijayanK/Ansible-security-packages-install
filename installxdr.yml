@@ -1,0 +1,34 @@
+---
+- hosts: OBBservers
+  remote_user: ansible
+  become: true
+  become_user: ansible
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Copying the packages and its contents
+      become: true
+      copy:
+        src: /home/ansible/SCDL_Latest_XDR_PRO_LIN.rpm
+        dest: /home/ansible/
+        owner: ansible
+        group: ansible
+        mode: 0775
+    - name: Create XDR conf directory
+      file:
+        path: /etc/panw
+        state: directory
+    - name: add proxy server details in conf file
+      shell: echo " --proxy-list="10.38.131.155:8888" " | sudo tee /etc/panw/cortex.conf
+    - name: Install pre-requestie package
+      yum:
+        name: selinux-policy-devel
+        state: present
+    - name: Install package
+      yum:
+        name: /home/ansible/SCDL_Latest_XDR_PRO_LIN.rpm
+        state: present
+    - name: Restart traps_pmd.service
+      systemd:
+        name: traps_pmd.service
+        state: restarted
