@@ -19,7 +19,7 @@
         path: /etc/panw
         state: directory
     - name: add proxy server details in conf file
-      shell: echo " --proxy-list="10.38.131.155:8888" " | sudo tee /etc/panw/cortex.conf
+      shell: echo " --proxy-list="10.xx.xx.xx:8888" " | sudo tee /etc/panw/cortex.conf
     - name: Install pre-requestie package
       yum:
         name: selinux-policy-devel
