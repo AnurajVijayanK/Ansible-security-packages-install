@@ -1,0 +1,34 @@
+---
+- hosts: OBBservers
+  remote_user: ansible
+  become: true
+  become_user: ansible
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Copying the packages and its contents
+      become: true
+      copy:
+        src: /home/ansible/axon_agent_te_8.8.3.2_en_linux_x86_64.tgz
+        dest: /home/ansible/
+        owner: ansible
+        group: ansible
+        mode: 0775
+    - name: Extract axon_agent
+      unarchive:
+        src: /home/ansible/axon_agent_te_8.8.3.2_en_linux_x86_64.tgz
+        dest: /home/ansible/
+        owner: ansible
+        group: ansible
+    - name: Install package
+      yum:
+        name: /home/ansible/axon_agent_te_8.8.3.2_en_linux_x86_64/axon-agent-installer-linux-x64.rpm
+        state: present
+    - name: Copy conf file to installed location
+      copy:
+        src: /home/ansible/twagent.conf
+        dest: /etc/tripwire/
+    - name: Restart tripwire-axon-agent.service
+      systemd:
+        name: tripwire-axon-agent.service
+        state: restarted
