@@ -1,0 +1,21 @@
+---
+- hosts: OBBservers
+  remote_user: ansible
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Transfer packages to remote location
+      copy:
+         src: /home/ansible/omsagent-1.13.40-0.universal.x64.sh
+         dest: /home/ansible/
+         owner: ansible
+         group: ansible
+         mode: 0775
+    - name: Execute the script
+      shell:
+        cmd: ./omsagent-1.13.40-0.universal.x64.sh --upgrade -p http://172.xx.xx.xx:8080 -w eeab4cb8-f234-4224-9f3a-xxxxxx -s xxxxL3sUsPyGJy+mS56Oako3mkE9xxxxx2Bx0+EwTPFTvmEd8nBS2+pQjo7hgmIo+d6A==
+    - name: omsagent-eeab4cb8-f234-xxx-9f3a-xxxxxx.service
+      systemd:
+        name: omsagent
+        state: restarted
