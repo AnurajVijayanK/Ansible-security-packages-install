@@ -13,11 +13,11 @@
          group: ansible
          mode: 0775
       with_items:
-         - { src: '/home/ansible/SensorLinuxInstaller-ASPIRE', dest: '/home/ansible/' }
-         - { src: '/home/ansible/SensorLinuxInstaller-ASPIRE.cfg', dest: '/home/ansible/' }
+         - { src: '/home/ansible/SensorLinuxInstaller-xxxx', dest: '/home/ansible/' }
+         - { src: '/home/ansible/SensorLinuxInstaller-xxxx.cfg', dest: '/home/ansible/' }
     - name: Execute the script
       shell:
-        cmd: ./SensorLinuxInstaller-ASPIRE -c SensorLinuxInstaller-ASPIRE.cfg -k D3595xxxxxx7FB58A1 -d false -l install.txt
+        cmd: ./SensorLinuxInstaller-xxxx -c SensorLinuxInstaller-xxxx.cfg -k D3595xxxxxx7FB58A1 -d false -l install.txt
     - name: Restart traps_pmd.service
       systemd:
         name: esensor.service
